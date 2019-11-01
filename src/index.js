@@ -10,7 +10,7 @@ const {
     alertChannelOnError
 } = config;
 
-export default function() {
+module.exports = function() {
     return {
         noColors: true,
 
@@ -85,4 +85,4 @@ export default function() {
             this.slack.sendTestReport(this.testCount - passed);
         }
     };
-}
+};
