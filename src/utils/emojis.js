@@ -3,6 +3,7 @@ const emojis = {
     computer: ':computer:',
     checkMark: ':white_check_mark:',
     fire: ':fire:',
+    memo: ':memo:',
     fastForward: ':fast_forward:',
     noEntry: ':no_entry:',
     stopWatch: ':stopwatch:',

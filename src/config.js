@@ -16,6 +16,7 @@ const defaultConfig = {
 };
 
 const testCafeConfigFilePath = resolvePath('.testcaferc.json');
+const scReporterConfigFilePath = resolvePath('.scReporterConfig.js');
 
 const loadReporterConfig = () => {
     if (!isFileExists(testCafeConfigFilePath)) {
@@ -39,7 +40,26 @@ const loadReporterConfig = () => {
     }
 };
 
+const loadSlackCustomReporterConfig = () => {
+    if (!isFileExists(scReporterConfigFilePath)) {
+        return {};
+    }
+
+    try {
+        const scReporterConfig = require(scReporterConfigFilePath);
+
+        if (!(scReporterConfig instanceof Object)) {
+            return {};
+        }
+
+        return scReporterConfig;
+    } catch (err) {
+        return {};
+    }
+};
+
 const reporterConfig = loadReporterConfig();
-const config = {...defaultConfig, ...reporterConfig.options};
+const scReporterConfig = loadSlackCustomReporterConfig();
+const config = {...defaultConfig, ...reporterConfig.options, ...scReporterConfig};
 
 export default config;

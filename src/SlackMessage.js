@@ -1,5 +1,7 @@
 import config from './config';
 import loggingLevels from './const/LoggingLevels';
+import emojis from './utils/emojis';
+import {bold} from './utils/textFormatters';
 
 export default class SlackMessage {
     constructor() {
@@ -36,14 +38,16 @@ export default class SlackMessage {
     }
 
     sendTestReport(numFailedTests) {
-        this.sendMessage(this.getTestReportMessage(), numFailedTests > 0 && this.loggingLevel === loggingLevels.DETAILED
-            ? {
-                attachments: [{
-                    color: 'danger',
-                    text: `${numFailedTests} test failed`
-                }]
-            }
-            : null
+        this.sendMessage(
+            this.getTestReportMessage(),
+            numFailedTests > 0 && ((this.loggingLevel === loggingLevels.DETAILED) || (this.loggingLevel === loggingLevels.SUMMARY_WITH_ERRORS))
+                ? {
+                    attachments: [{
+                        color: 'danger',
+                        text: `${numFailedTests} test${(numFailedTests > 0) ? 's' : ''} failed`
+                    }]
+                }
+                : null
         );
     }
 
@@ -51,10 +55,11 @@ export default class SlackMessage {
         let message = this.getSlackMessage();
         const errorMessage = this.getErrorMessage();
 
-        if (errorMessage.length > 0 && this.loggingLevel === loggingLevels.DETAILED) {
-            message = message + '\n\n\n```' + this.getErrorMessage() + '```';
+        if (errorMessage.length > 0 && ((this.loggingLevel === loggingLevels.DETAILED) || (this.loggingLevel === loggingLevels.SUMMARY_WITH_ERRORS))) {
+            message = message + `\n${emojis.memo} ${bold('Here is a list of errors:')}` + '\n\n\n```' + this.getErrorMessage() + '```';
         }
-        return message;
+
+        return `${message}\n----- END OF TEST RUN -----\n`;
     }
 
     getErrorMessage() {
