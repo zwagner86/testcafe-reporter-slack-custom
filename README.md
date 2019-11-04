@@ -6,9 +6,9 @@ This is a reporter for [TestCafe](http://devexpress.github.io/testcafe). It send
 ## Purpose
 Once configured the reporter sends test results to Slack channel, e.g.
 
-![Slack report - success](assets/slack-report-success.png)
+![Slack report - success](media/slack-report-success.png)
 
-![Slack report - failed](assets/slack-report-failed.png)
+![Slack report - failed](media/slack-report-failed.png)
 
 ## Installation
 
@@ -162,7 +162,7 @@ TESTCAFE_SLACK_QUIET_MODE=true
 
 #### Overriding Reporter Methods
 
-TestCafe Reporters require certain reporting methods. You can read more about those here: [TestCafe Reporter Methods](https://devexpress.github.io/testcafe/documentation/extending-testcafe/reporter-plugin/reporter-methods.html). Slack Custom Reporter allows you to customize the output of these functions, to a certain degree.  **This can only be done via the `.scReporterConfig.js` file and must return a specific format in order to work properly.**
+TestCafe Reporters require certain reporting methods. You can read more about those here: [TestCafe Reporter Methods](https://devexpress.github.io/testcafe/documentation/extending-testcafe/reporter-plugin/reporter-methods.html). Slack Custom Reporter allows you to customize the output of these functions, to a certain degree.  **This can only be done via the `.scReporterConfig.js` file inside a reporterMethods object and must return a specific format in order to work properly.**
 
 Your function must return either an object, or an array of objects, with an *action* key that may only have a value of *ADD* or *SEND* and a *message* key with a String value.
 
@@ -173,11 +173,13 @@ Your function must return either an object, or an array of objects, with an *act
 
 ```javascript
 module.exports = {
-  reportTaskStart: function(startTime, userAgents, testCount) {
-    return {
-      action: 'ADD',
-      message: 'The tests started at: ' + startTime
-    };
+  reporterMethods: {
+    reportTaskStart: function(startTime, userAgents, testCount) {
+      return {
+        action: 'ADD',
+        message: 'The tests started at: ' + startTime
+      };
+    }
   }
 };
 ```
@@ -186,17 +188,19 @@ Multiple messages can be passed through:
 
 ```javascript
 module.exports = {
-  reportTaskStart: function(startTime, userAgents, testCount) {
-    return [
-      {
-        action: 'SEND',
-        message: 'Starting Tests!'
-      },
-      {
-        action: 'ADD',
-        message: 'Test Count: ' + testCount
-      }
-    ];
+  reporterMethods: {
+    reportTaskStart: function(startTime, userAgents, testCount) {
+      return [
+        {
+          action: 'SEND',
+          message: 'Starting Tests!'
+        },
+        {
+          action: 'ADD',
+          message: 'Test Count: ' + testCount
+        }
+      ];
+    }
   }
 };
 ```
