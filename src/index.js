@@ -75,11 +75,11 @@ module.exports = function() {
                     this.sendMessagesFromUser(userMessageResponse);
                 } catch (error) {
                     if (loggingLevel === LoggingLevels.DETAILED) {
-                        this.slack.addMessage(bold(this.currentFixtureName));
+                        this.slack.addMessage(`\n${bold(this.currentFixtureName)}`);
                     }
                 }
             } else if (loggingLevel === LoggingLevels.DETAILED) {
-                this.slack.addMessage(bold(this.currentFixtureName));
+                this.slack.addMessage(`\n${bold(this.currentFixtureName)}`);
             }
         },
 
@@ -101,24 +101,37 @@ module.exports = function() {
             let message = null;
             const hasErr = !!testRunInfo.errs.length;
 
-            if (testRunInfo.skipped) {
-                message = `${emojis.fastForward} ${italics(name)} - ${bold('skipped')}`;
-            } else if (hasErr) {
-                message = `${emojis.fire} ${italics(name)} - ${bold('failed')}`;
-                this.renderErrors(testRunInfo.errs);
-            } else {
-                message = `${emojis.checkMark} ${italics(name)}`;
-            }
-
             if (loggingLevel === LoggingLevels.DETAILED) {
+                if (testRunInfo.skipped) {
+                    message = `${emojis.fastForward} ${italics(name)} - ${bold('skipped')}`;
+                } else if (hasErr) {
+                    message = `${emojis.fire} ${italics(name)} - ${bold('failed')}`;
+
+                    const errorMsgs = [];
+
+                    testRunInfo.errs.forEach((error, id) => {
+                        errorMsgs.push(this.formatError(error, `${id + 1} `));
+                    });
+
+                    message = message + '```' + errorMsgs.join('\n\n\n') + '```';
+                } else {
+                    message = `${emojis.checkMark} ${italics(name)}`;
+                }
+
                 this.slack.addMessage(message);
+            } else if ((loggingLevel === LoggingLevels.SUMMARY_WITH_ERRORS) && hasErr) {
+                this.renderErrors(name, testRunInfo.errs);
             }
         },
 
-        renderErrors(errors) {
+        renderErrors(testname, errors) {
+            const errorMessages = [];
+
             errors.forEach((error, id) => {
-                this.slack.addErrorMessage(this.formatError(error, `${id + 1} `));
+                errorMessages.push(this.formatError(error, `${id + 1} `));
             });
+
+            this.slack.addErrorMessage(`- ${this.currentFixtureName}\n-- ${testname}\n${errorMessages.join('\n\n')}`);
         },
 
         reportTaskDone(endTime, passed, warnings, result) {
