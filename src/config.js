@@ -13,6 +13,7 @@ const defaultConfig = {
     quietMode: process.env.TESTCAFE_SLACK_QUIET_MODE || false,
     testingEnvironment: process.env.TESTCAFE_SLACK_TEST_ENV || null,
     alertChannelOnError: process.env.TESTCAFE_SLACK_ALERT_CHANNEL_ON_ERROR || false,
+    slowTreshold: process.env.TESTCAFE_SLACK_SLOW_TRESHOLD || 60000
 };
 
 const testCafeConfigFilePath = resolvePath('.testcaferc.json');

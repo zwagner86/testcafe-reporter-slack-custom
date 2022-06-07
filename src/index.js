@@ -6,6 +6,7 @@ import {bold, italics} from './utils/textFormatters';
 
 const {
     loggingLevel,
+    slowTreshold,
     testingEnvironment,
     alertChannelOnError,
     reporterMethods
@@ -103,9 +104,10 @@ module.exports = function() {
 
             if (loggingLevel === LoggingLevels.DETAILED) {
                 const durationFormatted = this.moment
-                    .duration(durationMs)
+                    .duration(testRunInfo.durationMs)
                     .format('h[h] mm[m] ss[s]');
                 const durationStr = `${emojis.stopWatch} Duration: ${bold(durationFormatted)}\n`;
+
                 if (testRunInfo.skipped) {
                     message = `${emojis.fastForward} ${italics(name)} - ${bold('skipped')}`;
                 } else if (hasErr) {
@@ -119,7 +121,9 @@ module.exports = function() {
 
                     message = message + '```' + errorMsgs.join('\n\n\n') + '```';
                 } else {
-                    message = `${emojis.checkMark} ${italics(name)} ${durationStr}`;
+                    const successIcon = testRunInfo.durationMs > slowTreshold ? emojis.checkMarkBlue : emojis.checkMark;
+
+                    message = `${successIcon} ${italics(name)} ${durationStr}`;
                 }
 
                 this.slack.addMessage(message);

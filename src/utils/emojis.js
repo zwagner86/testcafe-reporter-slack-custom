@@ -2,6 +2,7 @@ const emojis = {
     rocket: ':rocket:',
     computer: ':computer:',
     checkMark: ':white_check_mark:',
+    checkMarkBlue: ':ballot_box_with_check:',
     fire: ':fire:',
     memo: ':memo:',
     fastForward: ':fast_forward:',
