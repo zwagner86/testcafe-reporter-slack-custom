@@ -1,11 +1,11 @@
 {
   "name": "testcafe-reporter-slack-custom",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "slack-custom TestCafe reporter plugin.",
-  "repository": "https://github.com/zwagner86/testcafe-reporter-slack-custom",
+  "repository": "https://github.com/EricVanEldik/testcafe-reporter-slack-custom",
   "author": {
-    "name": "Zachary Wagner",
-    "email": "wagnerzachary@yahoo.com"
+    "name": "Eric van Eldik",
+    "email": "ericvaneldik@gmail.com"
   },
   "main": "lib/index",
   "files": [

@@ -102,10 +102,14 @@ module.exports = function() {
             const hasErr = !!testRunInfo.errs.length;
 
             if (loggingLevel === LoggingLevels.DETAILED) {
+                const durationFormatted = this.moment
+                    .duration(durationMs)
+                    .format('h[h] mm[m] ss[s]');
+                const durationStr = `${emojis.stopWatch} Duration: ${bold(durationFormatted)}\n`;
                 if (testRunInfo.skipped) {
                     message = `${emojis.fastForward} ${italics(name)} - ${bold('skipped')}`;
                 } else if (hasErr) {
-                    message = `${emojis.fire} ${italics(name)} - ${bold('failed')}`;
+                    message = `${emojis.fire} ${italics(name)} - ${bold('failed')} ${durationStr}`;
 
                     const errorMsgs = [];
 
@@ -115,7 +119,7 @@ module.exports = function() {
 
                     message = message + '```' + errorMsgs.join('\n\n\n') + '```';
                 } else {
-                    message = `${emojis.checkMark} ${italics(name)}`;
+                    message = `${emojis.checkMark} ${italics(name)} ${durationStr}`;
                 }
 
                 this.slack.addMessage(message);
