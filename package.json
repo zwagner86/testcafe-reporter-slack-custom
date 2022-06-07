@@ -36,7 +36,7 @@
     "gulp-babel": "^8.0.0",
     "gulp-eslint": "^6.0.0",
     "gulp-mocha": "^8.0.0",
-    "normalize-newline": "^4.1.0",
+    "normalize-newline": "^1.0.2",
     "publish-please": "^5.5.2",
     "read-file-relative": "^1.2.0",
     "testcafe": "^1.19.0"
