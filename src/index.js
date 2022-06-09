@@ -6,7 +6,6 @@ import {bold, italics} from './utils/textFormatters';
 
 const {
     loggingLevel,
-    slowTreshold,
     testingEnvironment,
     alertChannelOnError,
     reporterMethods
@@ -121,7 +120,7 @@ module.exports = function() {
 
                     message = message + '```' + errorMsgs.join('\n\n\n') + '```';
                 } else {
-                    const successIcon = testRunInfo.durationMs > slowTreshold ? emojis.checkMarkBlue : emojis.checkMark;
+                    const successIcon = testRunInfo.durationMs > config.slowTreshold ? emojis.checkMarkBlue : emojis.checkMark;
 
                     message = `${successIcon} ${italics(name)} ${durationStr}`;
                 }
