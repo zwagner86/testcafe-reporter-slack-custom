@@ -7,8 +7,6 @@ export default class SlackMessage {
     constructor() {
         const {IncomingWebhook} = require('@slack/webhook');
 
-        // this.slack = new SlackNode();
-        // this.slack.setWebhook(config.webhookUrl);
         this.slack = new IncomingWebhook(config.webhookUrl);
         this.loggingLevel = config.loggingLevel;
         this.messages = [];
