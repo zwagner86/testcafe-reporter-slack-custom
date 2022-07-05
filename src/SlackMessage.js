@@ -5,10 +5,11 @@ import {bold} from './utils/textFormatters';
 
 export default class SlackMessage {
     constructor() {
-        const SlackNode = require('slack-node');
+        const {IncomingWebhook} = require('@slack/webhook');
 
-        this.slack = new SlackNode();
-        this.slack.setWebhook(config.webhookUrl);
+        // this.slack = new SlackNode();
+        // this.slack.setWebhook(config.webhookUrl);
+        this.slack = new IncomingWebhook(config.webhookUrl);
         this.loggingLevel = config.loggingLevel;
         this.messages = [];
         this.errorMessages = [];
@@ -23,7 +24,7 @@ export default class SlackMessage {
     }
 
     sendMessage(message, slackProperties = null) {
-        this.slack.webhook(Object.assign({
+        this.slack.send(Object.assign({
             text: message
         }, slackProperties), function(err, response) {
             if (!config.quietMode) {
