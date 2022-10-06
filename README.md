@@ -129,6 +129,35 @@ module.exports = {
 TESTCAFE_SLACK_LOGGING_LEVEL=SUMMARY
 ```
 
+#### Slow Treshold
+
+When in `DETAILED` slow treshold can be used to indicate with a blue checkbox that the test took longer then 60000 (default) amount of microseconds.
+
+
+```javascript
+module.exports = {
+  slowTreshold: 60000
+};
+```
+
+* via `.testcaferc.json`
+
+```json
+{
+  "name": "slack-custom",
+  "options": {
+    "slowTreshold": 60000
+  }
+}
+```
+
+* via `.env` file
+
+```dotenv
+# .env
+TESTCAFE_SLACK_SLOW_TRESHOLD=30000
+```
+
 #### Quiet mode
 
 Choose if you want to have messages in the terminal about sending specific messages to Slack, it's turned off by default.

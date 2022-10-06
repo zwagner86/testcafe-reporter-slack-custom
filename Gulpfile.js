@@ -4,7 +4,7 @@ var babel   = require('gulp-babel');
 var mocha   = require('gulp-mocha');
 var del     = require('del');
 
-function clean(cb) {
+async function clean(cb) {
     del('lib', cb);
 }
 

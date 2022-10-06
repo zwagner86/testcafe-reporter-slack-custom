@@ -1,7 +1,7 @@
-var TestRunErrorFormattableAdapter = require('testcafe').embeddingUtils.TestRunErrorFormattableAdapter;
-var UncaughtErrorOnPage            = require('testcafe').embeddingUtils.testRunErrors.UncaughtErrorOnPage;
-var ActionElementNotFoundError     = require('testcafe').embeddingUtils.testRunErrors.ActionElementNotFoundError;
-var testCallsite                   = require('./test-callsite');
+const {TestRunErrorFormattableAdapter} = require('testcafe').embeddingUtils;
+const {UncaughtErrorOnPage} = require('testcafe').embeddingUtils.testRunErrors;
+const {ActionElementNotFoundError} = require('testcafe').embeddingUtils.testRunErrors;
+const testCallsite = require('./test-callsite');
 
 
 function makeErrors(errDescrs) {
@@ -59,7 +59,7 @@ module.exports = [
                         }
                     },
                     {
-                        err: new ActionElementNotFoundError({apiFnChain: ['one', 'two', 'three'], apiFnIndex: 1}),
+                        err: new ActionElementNotFoundError({apiFnChain: ['one', 'two', 'three'], apiFnIndex: 1}, ''),
                         metaInfo: {
                             userAgent: 'Firefox 47 / Mac OS X 10.10.1',
                             callsite: testCallsite,
@@ -144,7 +144,7 @@ module.exports = [
             {
                 errs: makeErrors([
                     {
-                        err: new ActionElementNotFoundError({apiFnChain: ['one', 'two', 'three'], apiFnIndex: 1}),
+                        err: new ActionElementNotFoundError({apiFnChain: ['one', 'two', 'three'], apiFnIndex: 1}, ''),
 
                         metaInfo: {
                             userAgent: 'Firefox 47 / Mac OS X 10.10.1',
