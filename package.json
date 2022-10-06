@@ -7,10 +7,12 @@
     "name": "Zachary Wagner",
     "email": "wagnerzachary@yahoo.com"
   },
-  "contributors": {
-    "name": "Eric van Eldik",
-    "email": "ericvaneldik@gmail.com"
-  },
+  "contributors": [
+    {
+      "name": "Eric van Eldik",
+      "email": "ericvaneldik@gmail.com"
+    }
+  ],
   "main": "lib/index",
   "files": [
     "lib"
